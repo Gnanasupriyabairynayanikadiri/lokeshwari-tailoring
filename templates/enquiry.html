@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Enquiry | {{ design.title }}</title>
+
+    <!-- Favicon -->
+    <link rel="icon"
+          type="image/png"
+          href="{{ url_for('static', filename='images/logo.png') }}">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        body {
+            background: #f8f9fa;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+        }
+
+        .navbar-brand img {
+            width: 42px;
+            height: 42px;
+            object-fit: cover;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, #8b1e3f, #c44569);
+            color: white;
+            border-radius: 24px;
+            padding: 40px 28px;
+            margin: 24px 0;
+            box-shadow: 0 12px 30px rgba(139,30,63,0.25);
+        }
+
+        .form-card {
+            border: none;
+            border-radius: 22px;
+            box-shadow: 0 10px 28px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+        .service-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            min-height: 320px;
+        }
+
+        .price-box {
+            background: #198754;
+            color: white;
+            border-radius: 16px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .price-value {
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+
+        .section-title {
+            color: #8b1e3f;
+            font-weight: 700;
+        }
+
+        .note-box {
+            background: #fff8e1;
+            border: 1px solid #ffe082;
+            border-radius: 14px;
+            padding: 16px;
+            color: #5d4037;
+        }
+
+        .note-box ul {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+    <div class="container">
+
+        <a class="navbar-brand d-flex align-items-center gap-2 text-dark fw-bold"
+           href="/">
+
+            <img src="{{ url_for('static', filename='images/logo.png') }}"
+                 alt="Logo"
+                 class="rounded-circle border border-2 border-dark">
+
+            <span>Lokeshwari Tailoring & Embroidery</span>
+
+        </a>
+
+        <a href="/design/{{ design.code }}"
+           class="btn btn-outline-dark btn-sm rounded-pill">
+
+            &larr; Back
+
+        </a>
+
+    </div>
+</nav>
+
+<!-- Main Content -->
+<div class="container py-4">
+
+    <!-- Page Header -->
+    <div class="page-header text-center">
+
+        <h1 class="fw-bold mb-2">Send Enquiry</h1>
+
+        <p class="mb-0 fs-5">
+            Share your measurements and event details for a perfect tailoring experience.
+        </p>
+
+    </div>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="alert"
+                            aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <!-- Service Summary -->
+    <div class="card form-card mb-4">
+
+        <div class="row g-0">
+
+            <div class="col-md-4">
+
+                <img src="{{ url_for('static', filename=design.image) }}"
+                     alt="{{ design.title }}"
+                     class="service-image">
+
+            </div>
+
+            <div class="col-md-8">
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-2">
+
+                        <h3 class="fw-bold mb-0">{{ design.title }}</h3>
+
+                        <span class="badge bg-dark fs-6">{{ design.category }}</span>
+
+                    </div>
+
+                    <p class="text-muted mb-3">
+                        Service Code: <strong>{{ design.code }}</strong>
+                    </p>
+
+                    <div class="price-box mb-3">
+
+                        <div class="small text-white-50">Estimated Price Range</div>
+
+                        <div class="price-value">
+                            ₹ {{ design.price_min }} - {{ design.price_max }}
+                        </div>
+
+                    </div>
+
+                    <p class="mb-0 text-muted">
+                        {{ design.description }}
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Enquiry Form -->
+    <div class="card form-card">
+
+        <div class="card-body p-4 p-lg-5">
+
+            <h3 class="section-title mb-4">Customer & Measurement Details</h3>
+
+            <form method="POST" class="row g-3">
+
+                <!-- Customer Details -->
+                <div class="col-md-6">
+
+                    <label class="form-label">Customer Name</label>
+
+                    <input type="text"
+                           name="name"
+                           class="form-control"
+                           required>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <label class="form-label">Phone Number</label>
+
+                    <input type="text"
+                           name="phone"
+                           class="form-control"
+                           required>
+
+                </div>
+
+                <!-- Measurements -->
+                <div class="col-md-4">
+
+                    <label class="form-label">Bust (inches)</label>
+
+                    <input type="text"
+                           name="bust"
+                           class="form-control">
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <label class="form-label">Waist (inches)</label>
+
+                    <input type="text"
+                           name="waist"
+                           class="form-control">
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <label class="form-label">Hip (inches)</label>
+
+                    <input type="text"
+                           name="hip"
+                           class="form-control">
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <label class="form-label">Shoulder (inches)</label>
+
+                    <input type="text"
+                           name="shoulder"
+                           class="form-control">
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <label class="form-label">Sleeve Length (inches)</label>
+
+                    <input type="text"
+                           name="sleeve_length"
+                           class="form-control">
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <label class="form-label">Blouse Length (inches)</label>
+
+                    <input type="text"
+                           name="blouse_length"
+                           class="form-control">
+
+                </div>
+
+                <!-- Event Date -->
+                <div class="col-md-6">
+
+                    <label class="form-label">Event Date</label>
+
+                    <input type="date"
+                           name="event_date"
+                           class="form-control">
+
+                </div>
+
+                <!-- Message -->
+                <div class="col-12">
+
+                    <label class="form-label">Message / Design Details</label>
+
+                    <textarea name="message"
+                              rows="5"
+                              class="form-control"
+                              placeholder="Mention fabric, color, reference design, delivery requirement, embroidery type, and any special instructions."></textarea>
+
+                </div>
+
+                <!-- Shop Visit Policy -->
+                <div class="col-12">
+
+                    <div class="note-box">
+
+                        <div class="fw-bold mb-2">
+                            <i class="bi bi-shop me-2"></i>
+                            Shop Visit Required
+                        </div>
+
+                        <ul class="ps-3">
+                            <li>This is a <strong>shop-visit tailoring service</strong>.</li>
+                            <li>Customers are requested to visit our boutique for final measurement confirmation.</li>
+                            <li>Fabric checking, fitting trial, and order collection are done at the shop.</li>
+                            <li>Please bring your reference design photo and fabric (if available) when visiting.</li>
+                        </ul>
+
+                    </div>
+
+                </div>
+
+                <!-- Submit -->
+                <div class="col-12 d-grid mt-2">
+
+                    <button type="submit"
+                            class="btn btn-success btn-lg rounded-pill">
+
+                        <i class="bi bi-send-fill me-2"></i>
+                        Submit Enquiry
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Footer -->
+<footer class="bg-dark text-white py-4 mt-5">
+
+    <div class="container text-center">
+
+        <h5 class="mb-2">Lokeshwari Tailoring & Embroidery Studio</h5>
+
+        <p class="mb-1">
+            Bridal Wear • Designer Blouses • Tailoring • Embroidery
+        </p>
+
+        <p class="mb-0 small text-white-50">
+            Chittoor, Andhra Pradesh
+        </p>
+
+    </div>
+
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

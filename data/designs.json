@@ -1,0 +1,23 @@
+[
+    {
+        "code": "BL-101",
+        "title": "Floral Bridal Blouse Design",
+        "category": "Bridal",
+        "description": "Beautiful floral embroidery suitable for bridal blouses.",
+        "image": "images/BL-101.jpg"
+    },
+    {
+        "code": "BL-102",
+        "title": "Elegant Neck Embroidery",
+        "category": "Neck Design",
+        "description": "Elegant neck embroidery for party wear blouses.",
+        "image": "images/BL-102.jpg"
+    },
+    {
+        "code": "BL-103",
+        "title": "Sleeve Floral Embroidery",
+        "category": "Sleeve Design",
+        "description": "Stylish floral sleeve embroidery pattern.",
+        "image": "images/BL-103.jpg"
+    }
+]

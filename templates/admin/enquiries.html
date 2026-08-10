@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Customer Enquiries | Lokeshwari Embroidery</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .page-title {
+            color: #8b1e3f;
+            font-weight: 700;
+        }
+
+        .card-custom {
+            border: none;
+            border-radius: 18px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+
+        .status-badge {
+            font-size: 0.85rem;
+            padding: 0.45rem 0.75rem;
+            border-radius: 999px;
+            display: inline-block;
+            min-width: 90px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .status-new {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .status-contacted {
+            background-color: #fd7e14;
+            color: white;
+        }
+
+        .status-ordered {
+            background-color: #0d6efd;
+            color: white;
+        }
+
+        .status-completed {
+            background-color: #198754;
+            color: white;
+        }
+
+        .table td,
+        .table th {
+            vertical-align: middle;
+        }
+
+        .action-buttons {
+            min-width: 150px;
+        }
+
+        @media (max-width: 576px) {
+
+            .action-buttons {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container py-4">
+
+    <!-- Header -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+
+        <div>
+            <h2 class="page-title mb-1">Customer Enquiries</h2>
+            <p class="text-muted mb-0">
+                Track customer requests and create orders.
+            </p>
+        </div>
+
+        <div class="d-flex gap-2">
+
+            <a href="/admin/orders"
+               class="btn btn-dark">
+                View Orders
+            </a>
+
+            <a href="/admin/dashboard"
+               class="btn btn-secondary">
+                Dashboard
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="alert"
+                            aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <!-- Enquiries Table -->
+    <div class="card card-custom">
+
+        <div class="card-body p-0">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Date & Time</th>
+                            <th>Design</th>
+                            <th>Customer</th>
+                            <th>Phone</th>
+                            <th>Message</th>
+                            <th>Status</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for enquiry in enquiries|reverse %}
+
+                        <tr>
+
+                            <!-- Date & Time -->
+                            <td style="min-width:140px;">
+                                <small class="text-muted">
+                                    {{ enquiry.created_at }}
+                                </small>
+                            </td>
+
+                            <!-- Design -->
+                            <td style="min-width:180px;">
+
+                                <div class="fw-semibold">
+                                    {{ enquiry.design_code }}
+                                </div>
+
+                                <small class="text-muted">
+                                    {{ enquiry.design_title }}
+                                </small>
+
+                            </td>
+
+                            <!-- Customer -->
+                            <td style="min-width:120px;">
+                                {{ enquiry.name }}
+                            </td>
+
+                            <!-- Phone -->
+                            <td style="min-width:120px;">
+
+                                <a href="tel:{{ enquiry.phone }}"
+                                   class="text-decoration-none fw-semibold">
+                                    {{ enquiry.phone }}
+                                </a>
+
+                            </td>
+
+                            <!-- Message -->
+                            <td style="min-width:220px; max-width:280px;">
+                                <small class="text-muted">
+                                    {{ enquiry.message }}
+                                </small>
+                            </td>
+
+                            <!-- Status Badge -->
+                            <td style="min-width:120px;">
+
+                                {% if enquiry.status == 'New' %}
+                                    <span class="status-badge status-new">
+                                        New
+                                    </span>
+
+                                {% elif enquiry.status == 'Contacted' %}
+                                    <span class="status-badge status-contacted">
+                                        Contacted
+                                    </span>
+
+                                {% elif enquiry.status == 'Ordered' %}
+                                    <span class="status-badge status-ordered">
+                                        Ordered
+                                    </span>
+
+                                {% else %}
+                                    <span class="status-badge status-completed">
+                                        Completed
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <!-- Actions -->
+                            <td class="text-center action-buttons">
+
+                                <div class="d-grid gap-1">
+
+                                    <!-- Contacted -->
+                                    <a href="/admin/enquiry-status/{{ enquiry.id }}/Contacted"
+                                       class="btn btn-sm btn-warning">
+                                        Contacted
+                                    </a>
+
+                                    <!-- Ordered -->
+                                    <a href="/admin/enquiry-status/{{ enquiry.id }}/Ordered"
+                                       class="btn btn-sm btn-primary">
+                                        Ordered
+                                    </a>
+
+                                    <!-- Completed -->
+                                    <a href="/admin/enquiry-status/{{ enquiry.id }}/Completed"
+                                       class="btn btn-sm btn-success">
+                                        Completed
+                                    </a>
+
+                                    <!-- Create Order -->
+                                    <a href="/admin/create-order/{{ enquiry.id }}"
+                                       class="btn btn-sm btn-dark">
+                                        Create Order
+                                    </a>
+
+                                    <!-- Delete -->
+                                    <a href="/admin/delete-enquiry/{{ enquiry.id }}"
+                                       class="btn btn-sm btn-danger"
+                                       onclick="return confirm('Delete this enquiry?')">
+                                        Delete
+                                    </a>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                        {% else %}
+
+                        <!-- Empty State -->
+                        <tr>
+
+                            <td colspan="7"
+                                class="text-center py-5 text-muted">
+
+                                <div class="d-flex flex-column align-items-center gap-2">
+
+                                    <div style="font-size:3rem;">📭</div>
+
+                                    <h5 class="mb-1">
+                                        No enquiries received yet
+                                    </h5>
+
+                                    <p class="mb-0">
+                                        Customer enquiries will appear here.
+                                    </p>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="text-center mt-4 text-muted small">
+        Lokeshwari Embroidery | Customer Enquiry & Order Management
+    </div>
+
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

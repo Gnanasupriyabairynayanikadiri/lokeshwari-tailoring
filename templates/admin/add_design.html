@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Add Service / Design | Lokeshwari Tailoring & Embroidery</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #f8f9fa;
+        }
+
+        .page-title {
+            color: #8b1e3f;
+            font-weight: 700;
+        }
+
+        .form-card {
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+
+        .btn-brand {
+            background: #8b1e3f;
+            border: none;
+        }
+
+        .btn-brand:hover {
+            background: #6f1732;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container py-4">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="page-title mb-1">Add Service / Design</h2>
+            <p class="text-muted mb-0">
+                Add tailoring, embroidery, blouse, lehenga, frock, or dress services.
+            </p>
+        </div>
+
+        <a href="/admin/dashboard" class="btn btn-secondary">
+            Back to Dashboard
+        </a>
+
+    </div>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="alert"
+                            aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <!-- Form Card -->
+    <div class="card form-card">
+
+        <div class="card-body p-4 p-md-5">
+
+            <form method="POST"
+                  enctype="multipart/form-data">
+
+                <!-- Design Code -->
+                <div class="mb-3">
+
+                    <label class="form-label fw-semibold">
+                        Service / Design Code
+                    </label>
+
+                    <input type="text"
+                           name="code"
+                           class="form-control"
+                           placeholder="Example: BL-101"
+                           required>
+
+                </div>
+
+                <!-- Title -->
+                <div class="mb-3">
+
+                    <label class="form-label fw-semibold">
+                        Service / Design Name
+                    </label>
+
+                    <input type="text"
+                           name="title"
+                           class="form-control"
+                           placeholder="Example: Bridal Blouse Work"
+                           required>
+
+                </div>
+
+                <!-- Category -->
+                <div class="mb-3">
+
+                    <label class="form-label fw-semibold">
+                        Category
+                    </label>
+
+                    <select name="category"
+                            class="form-select"
+                            required>
+
+                        <option value="" selected disabled>Select Category</option>
+
+                        <option value="Bridal Lehenga">Bridal Lehenga</option>
+                        <option value="Designer Lehenga">Designer Lehenga</option>
+                        <option value="Bridal Blouse Work">Bridal Blouse Work</option>
+                        <option value="Designer Blouse Stitching">Designer Blouse Stitching</option>
+                        <option value="Normal Blouse Stitching">Normal Blouse Stitching</option>
+                        <option value="Frocks / Kids Wear">Frocks / Kids Wear</option>
+                        <option value="Kurti / Dress Stitching">Kurti / Dress Stitching</option>
+                        <option value="Saree Blouse Embroidery">Saree Blouse Embroidery</option>
+                        <option value="Neck Design Work">Neck Design Work</option>
+                        <option value="Sleeve Design Work">Sleeve Design Work</option>
+                        <option value="Border &amp; Patch Work">Border &amp; Patch Work</option>
+
+                    </select>
+
+                </div>
+
+                <!-- Price Range -->
+                <div class="row g-3 mb-3">
+
+                    <div class="col-md-6">
+
+                        <label class="form-label fw-semibold">
+                            Minimum Price (₹)
+                        </label>
+
+                        <input type="number"
+                               name="price_min"
+                               class="form-control"
+                               placeholder="Example: 500"
+                               min="0"
+                               required>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="form-label fw-semibold">
+                            Maximum Price (₹)
+                        </label>
+
+                        <input type="number"
+                               name="price_max"
+                               class="form-control"
+                               placeholder="Example: 2500"
+                               min="0"
+                               required>
+
+                    </div>
+
+                </div>
+
+                <!-- Description -->
+                <div class="mb-3">
+
+                    <label class="form-label fw-semibold">
+                        Description
+                    </label>
+
+                    <textarea name="description"
+                              class="form-control"
+                              rows="4"
+                              placeholder="Describe the service, stitching style, embroidery work, material, fitting, and special features."
+                              required></textarea>
+
+                </div>
+
+                <!-- Image Upload -->
+                <div class="mb-4">
+
+                    <label class="form-label fw-semibold">
+                        Upload Image
+                    </label>
+
+                    <input type="file"
+                           name="image"
+                           class="form-control"
+                           accept=".jpg,.jpeg,.png"
+                           required>
+
+                    <div class="form-text">
+                        Upload a clear photo of the blouse, lehenga, dress, frock, or embroidery work.
+                    </div>
+
+                </div>
+
+                <!-- Submit Button -->
+                <div class="d-grid">
+
+                    <button type="submit"
+                            class="btn btn-brand btn-lg text-white">
+
+                        Save Service / Design
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="text-center mt-4 text-muted small">
+        Lokeshwari Tailoring & Embroidery Studio | Add New Service
+    </div>
+
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

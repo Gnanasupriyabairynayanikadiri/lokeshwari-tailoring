@@ -1,0 +1,13 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.card img {
+    height: 350px;
+    object-fit: cover;
+}
+
+.btn-success {
+    background-color: #25D366;
+    border: none;
+}

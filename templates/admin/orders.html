@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Orders | Lokeshwari Embroidery</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #f8f9fa;
+        }
+
+        .page-title {
+            color: #8b1e3f;
+            font-weight: 700;
+        }
+
+        .card-custom {
+            border: none;
+            border-radius: 18px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+
+        .status-badge {
+            font-size: 0.85rem;
+            padding: 0.45rem 0.75rem;
+            border-radius: 999px;
+            display: inline-block;
+            min-width: 100px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .status-progress {
+            background-color: #ffc107;
+            color: #212529;
+        }
+
+        .status-ready {
+            background-color: #0dcaf0;
+            color: #212529;
+        }
+
+        .status-delivered {
+            background-color: #198754;
+            color: white;
+        }
+
+        .table td,
+        .table th {
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+
+        .design-cell {
+            min-width: 220px;
+        }
+
+        .action-buttons {
+            min-width: 200px;
+        }
+
+        .search-card {
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+        }
+
+        @media (max-width: 576px) {
+
+            .action-buttons {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container-fluid py-4 px-3 px-md-4">
+
+    <!-- Header -->
+    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+
+        <div>
+            <h2 class="page-title mb-1">Order Management</h2>
+            <p class="text-muted mb-0">
+                Track embroidery orders from enquiry to delivery.
+            </p>
+        </div>
+
+        <!-- Top Buttons -->
+        <div class="d-flex flex-wrap gap-2">
+
+            <a href="/admin/enquiries"
+               class="btn btn-outline-primary">
+                Enquiries
+            </a>
+
+            <a href="/admin/dashboard"
+               class="btn btn-secondary">
+                Dashboard
+            </a>
+
+            <a href="/admin/download-orders"
+               class="btn btn-success">
+                Download Excel
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="alert"
+                            aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <!-- Search & Filter -->
+    <div class="card search-card mb-4">
+
+        <div class="card-body">
+
+            <form method="GET" action="/admin/orders">
+
+                <div class="row g-3 align-items-end">
+
+                    <!-- Search Input -->
+                    <div class="col-md-6">
+
+                        <label class="form-label fw-semibold">Search</label>
+
+                        <input type="text"
+                               name="search"
+                               value="{{ search }}"
+                               class="form-control"
+                               placeholder="Customer name, phone, or design code">
+
+                    </div>
+
+                    <!-- Status Filter -->
+                    <div class="col-md-3">
+
+                        <label class="form-label fw-semibold">Status</label>
+
+                        <select name="status" class="form-select">
+
+                            <option value="">All Orders</option>
+
+                            <option value="In Progress"
+                                {% if status == 'In Progress' %}selected{% endif %}>
+                                In Progress
+                            </option>
+
+                            <option value="Ready"
+                                {% if status == 'Ready' %}selected{% endif %}>
+                                Ready
+                            </option>
+
+                            <option value="Delivered"
+                                {% if status == 'Delivered' %}selected{% endif %}>
+                                Delivered
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="col-md-3 d-grid gap-2">
+
+                        <button type="submit" class="btn btn-primary">
+                            Search
+                        </button>
+
+                        <a href="/admin/orders"
+                           class="btn btn-outline-secondary">
+                            Reset
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- Orders Table -->
+    <div class="card card-custom">
+
+        <div class="card-body p-0">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Date & Time</th>
+                            <th>Customer</th>
+                            <th>Phone</th>
+                            <th>Design</th>
+                            <th>Size</th>
+                            <th>Delivery</th>
+                            <th>Advance</th>
+                            <th>Balance</th>
+                            <th>Status</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for order in orders|reverse %}
+
+                        <tr>
+
+                            <!-- Order ID -->
+                            <td>
+                                <strong>#{{ order.id }}</strong>
+                            </td>
+
+                            <!-- Date & Time -->
+                            <td>
+                                <small class="text-muted">
+                                    {{ order.created_at }}
+                                </small>
+                            </td>
+
+                            <!-- Customer -->
+                            <td>
+                                <strong>{{ order.name }}</strong>
+                            </td>
+
+                            <!-- Phone + WhatsApp -->
+                            <td>
+
+                                <div class="d-flex flex-column gap-1">
+
+                                    <a href="tel:{{ order.phone }}"
+                                       class="text-decoration-none fw-semibold">
+                                        {{ order.phone }}
+                                    </a>
+
+                                    <a href="https://wa.me/91{{ order.phone }}?text=Hello%20{{ order.name|replace(' ', '%20') }},%20regarding%20your%20embroidery%20order%20{{ order.design_code }}"
+                                       target="_blank"
+                                       class="btn btn-success btn-sm">
+                                        WhatsApp
+                                    </a>
+
+                                </div>
+
+                            </td>
+
+                            <!-- Design -->
+                            <td class="design-cell">
+
+                                <div class="fw-semibold">
+                                    {{ order.design_code }}
+                                </div>
+
+                                <small class="text-muted">
+                                    {{ order.design_title }}
+                                </small>
+
+                            </td>
+
+                            <!-- Size -->
+                            <td>
+                                {{ order.blouse_size or '-' }}
+                            </td>
+
+                            <!-- Delivery Date -->
+                            <td>
+                                {{ order.delivery_date or '-' }}
+                            </td>
+
+                            <!-- Advance -->
+                            <td>
+                                ₹ {{ order.advance_amount or '0' }}
+                            </td>
+
+                            <!-- Balance -->
+                            <td>
+                                ₹ {{ order.balance_amount or '0' }}
+                            </td>
+
+                            <!-- Status -->
+                            <td>
+
+                                {% if order.status == 'In Progress' %}
+                                    <span class="status-badge status-progress">
+                                        In Progress
+                                    </span>
+
+                                {% elif order.status == 'Ready' %}
+                                    <span class="status-badge status-ready">
+                                        Ready
+                                    </span>
+
+                                {% else %}
+                                    <span class="status-badge status-delivered">
+                                        Delivered
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <!-- Actions -->
+                            <td class="text-center action-buttons">
+
+                                <div class="d-grid gap-1">
+
+                                    <!-- Edit Details -->
+                                    <a href="/admin/edit-order/{{ order.id }}"
+                                       class="btn btn-sm btn-primary">
+                                        Edit Details
+                                    </a>
+
+                                    <!-- Print Invoice -->
+                                    <a href="/admin/invoice/{{ order.id }}"
+                                       target="_blank"
+                                       class="btn btn-sm btn-dark">
+                                        Print Invoice
+                                    </a>
+
+                                    <!-- Status Buttons -->
+                                    <a href="/admin/order-status/{{ order.id }}/In Progress"
+                                       class="btn btn-sm btn-warning">
+                                        In Progress
+                                    </a>
+
+                                    <a href="/admin/order-status/{{ order.id }}/Ready"
+                                       class="btn btn-sm btn-info">
+                                        Ready
+                                    </a>
+
+                                    <a href="/admin/order-status/{{ order.id }}/Delivered"
+                                       class="btn btn-sm btn-success">
+                                        Delivered
+                                    </a>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                        {% else %}
+
+                        <!-- Empty State -->
+                        <tr>
+
+                            <td colspan="11"
+                                class="text-center py-5 text-muted">
+
+                                <div class="d-flex flex-column align-items-center gap-2">
+
+                                    <div style="font-size:3rem;">🧾</div>
+
+                                    <h5 class="mb-1">
+                                        No matching orders found
+                                    </h5>
+
+                                    <p class="mb-0">
+                                        Try changing the search or filter options.
+                                    </p>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="text-center mt-4 text-muted small">
+        Lokeshwari Embroidery | Order Tracking, Payments, Invoice & Excel Reports
+    </div>
+
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
