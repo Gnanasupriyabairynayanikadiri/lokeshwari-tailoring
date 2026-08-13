@@ -6,16 +6,9 @@
 
     <title>{{ design.title }} | Lokeshwari Tailoring & Embroidery</title>
 
-    <!-- Favicon -->
-    <link rel="icon"
-          type="image/png"
-          href="{{ url_for('static', filename='images/logo.png') }}">
-
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
@@ -24,91 +17,49 @@
             background: #f8f9fa;
         }
 
-        .navbar-brand {
-            font-weight: 700;
-        }
-
-        .navbar-brand img {
-            width: 42px;
-            height: 42px;
+        .main-image {
+            width: 100%;
+            border-radius: 24px;
             object-fit: cover;
+            max-height: 650px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
         }
 
         .detail-card {
             border: none;
             border-radius: 24px;
-            overflow: hidden;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.08);
-            background: white;
-        }
-
-        .design-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            min-height: 380px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
         }
 
         .price-box {
-            background: #198754;
-            color: white;
-            border-radius: 16px;
-            padding: 18px;
-            text-align: center;
-        }
-
-        .price-value {
-            font-size: 1.8rem;
-            font-weight: 700;
-        }
-
-        .category-badge {
-            background: #8b1e3f;
-            color: white;
-            border-radius: 999px;
-            padding: 0.5rem 1rem;
-            font-weight: 600;
-            display: inline-block;
-        }
-
-        .btn-brand {
-            background: #8b1e3f;
-            border: none;
-        }
-
-        .btn-brand:hover {
-            background: #6f1732;
-        }
-
-        .feature-box {
-            background: #fff;
-            border-radius: 16px;
-            padding: 16px;
-            border: 1px solid #eee;
-            height: 100%;
-        }
-
-        .feature-icon {
-            font-size: 1.5rem;
-            color: #8b1e3f;
-        }
-
-        .section-card {
-            border: none;
-            border-radius: 20px;
-            box-shadow: 0 8px 22px rgba(0,0,0,0.05);
-        }
-
-        .policy-box {
-            background: #fff8e1;
-            border: 1px solid #ffe082;
+            background: #e8f5e9;
+            border: 1px solid #c8e6c9;
             border-radius: 18px;
-            padding: 18px;
-            color: #5d4037;
+            padding: 1rem;
         }
 
-        .policy-box ul {
-            margin-bottom: 0;
+        .visit-box {
+            background: #fff3cd;
+            border: 1px solid #ffe69c;
+            border-radius: 18px;
+            padding: 1rem;
+        }
+
+        .video-box {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 1rem;
+            box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+        }
+
+        .btn-pill {
+            border-radius: 999px;
+            padding: 0.75rem 1.4rem;
+        }
+
+        footer {
+            background: #111827;
+            color: white;
         }
     </style>
 </head>
@@ -119,28 +70,45 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
     <div class="container">
 
-        <a class="navbar-brand d-flex align-items-center gap-2 text-dark fw-bold"
-           href="/">
-
-            <img src="{{ url_for('static', filename='images/logo.png') }}"
-                 alt="Logo"
-                 class="rounded-circle border border-2 border-dark">
-
-            <span>Lokeshwari Tailoring & Embroidery</span>
-
+        <a class="navbar-brand fw-bold text-dark" href="/">
+            Lokeshwari Tailoring
         </a>
 
-        <div class="d-flex gap-2">
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav">
 
-            <a href="/wishlist"
-               class="btn btn-outline-danger btn-sm rounded-pill">
-                ❤️ Wishlist
-            </a>
+            <span class="navbar-toggler-icon"></span>
 
-            <a href="/gallery"
-               class="btn btn-outline-dark btn-sm rounded-pill">
-                &larr; Back
-            </a>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link active" href="/gallery">Gallery</a>
+                </li>
+
+                <!-- Track Order Link -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/track-order">Track Order</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/wishlist">Wishlist</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/contact">Contact</a>
+                </li>
+
+            </ul>
 
         </div>
 
@@ -148,175 +116,181 @@
 </nav>
 
 <!-- Main Content -->
-<div class="container py-4">
+<div class="container py-5">
 
-    <div class="card detail-card">
+    <!-- Flash Messages (Important Fix) -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show rounded-4 mb-4"
+                     role="alert">
 
-        <div class="row g-0">
+                    {{ message }}
 
-            <!-- Image -->
-            <div class="col-lg-6">
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="alert"></button>
 
-                <img src="{{ url_for('static', filename=design.image) }}"
-                     alt="{{ design.title }}"
-                     class="design-image">
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="row g-5">
+
+        <!-- Left Side -->
+        <div class="col-lg-6">
+
+            <img src="/static/{{ design.image }}"
+                 alt="{{ design.title }}"
+                 class="main-image mb-4">
+
+            <!-- Video Section -->
+            {% if 'video' in design and design['video'] %}
+
+            <div class="video-box mt-3">
+
+                <h5 class="fw-bold mb-3 text-danger">
+
+                    <i class="bi bi-play-btn-fill me-2"></i>
+                    Work Video
+
+                </h5>
+
+                <video controls autoplay muted playsinline
+                       class="w-100 rounded-4"
+                       style="max-height:500px; object-fit:cover;">
+
+                    <source src="/static/{{ design['video'] }}"
+                            type="video/mp4">
+
+                    Your browser does not support the video tag.
+
+                </video>
+
+                <p class="text-muted small mt-2 mb-0">
+                    Actual embroidery / stitching work video uploaded by our boutique.
+                </p>
 
             </div>
 
-            <!-- Details -->
-            <div class="col-lg-6">
+            {% endif %}
 
-                <div class="p-4 p-lg-5 d-flex flex-column h-100">
+        </div>
 
-                    <div class="mb-3">
+        <!-- Right Side -->
+        <div class="col-lg-6">
 
-                        <span class="category-badge">
-                            {{ design.category }}
-                        </span>
+            <div class="detail-card bg-white p-4 p-lg-5 h-100">
+
+                <span class="badge bg-danger px-3 py-2 rounded-pill mb-3 fs-6">
+                    {{ design.category }}
+                </span>
+
+                <h1 class="fw-bold mb-3">{{ design.title }}</h1>
+
+                <p class="text-muted mb-4">
+                    {{ design.description }}
+                </p>
+
+                <!-- Price -->
+                <div class="price-box mb-4">
+
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+
+                        <div>
+
+                            <div class="text-muted small">Estimated Price Range</div>
+
+                            <div class="fs-4 fw-bold text-success">
+                                ₹ {{ design.price_min }} - ₹ {{ design.price_max }}
+                            </div>
+
+                        </div>
+
+                        <i class="bi bi-currency-rupee text-success fs-2"></i>
 
                     </div>
 
-                    <h1 class="fw-bold mb-3">
-                        {{ design.title }}
-                    </h1>
+                </div>
 
-                    <p class="text-muted mb-4">
-                        Service Code: <strong>{{ design.code }}</strong>
+                <!-- Buttons -->
+                <div class="d-grid gap-3 mb-4">
+
+                    <a href="/enquiry/{{ design.code }}"
+                       class="btn btn-danger btn-lg btn-pill">
+
+                        <i class="bi bi-chat-dots-fill me-2"></i>
+                        Send Enquiry
+
+                    </a>
+
+                    <button class="btn btn-outline-dark btn-lg btn-pill"
+                            onclick="addToWishlist('{{ design.code }}', '{{ design.title }}', '/static/{{ design.image }}')">
+
+                        <i class="bi bi-heart me-2"></i>
+                        Save to Wishlist
+
+                    </button>
+
+                    <a href="https://wa.me/917207733335?text=Hello,%20I%20am%20interested%20in%20{{ design.title }}%20({{ design.code }})"
+                       target="_blank"
+                       class="btn btn-success btn-lg btn-pill">
+
+                        <i class="bi bi-whatsapp me-2"></i>
+                        Enquire on WhatsApp
+
+                    </a>
+
+                </div>
+
+                <!-- Boutique Visit Notice -->
+                <div class="visit-box mb-4">
+
+                    <h5 class="fw-bold mb-2">
+
+                        <i class="bi bi-shop me-2 text-warning"></i>
+                        Boutique Visit Required
+
+                    </h5>
+
+                    <p class="mb-1">
+                        This is a <strong>shop-visit tailoring service</strong>.
                     </p>
 
-                    <!-- Price Range -->
-                    <div class="price-box mb-4">
+                    <p class="mb-0">
+                        Final measurements, fitting confirmation, and order collection are done directly at our boutique in Chittoor.
+                    </p>
 
-                        <div class="small text-white-50 mb-1">
-                            Estimated Price Range
-                        </div>
+                </div>
 
-                        <div class="price-value">
-                            ₹ {{ design.price_min }} - {{ design.price_max }}
-                        </div>
+                <!-- Contact Info -->
+                <div class="border rounded-4 p-3 bg-light">
 
-                        <div class="small text-white-50 mt-1">
-                            Final price depends on fabric, work, and measurements
-                        </div>
+                    <h6 class="fw-bold mb-3">Quick Contact</h6>
 
-                    </div>
+                    <div class="d-flex align-items-start mb-2">
 
-                    <!-- Description -->
-                    <div class="mb-4">
+                        <i class="bi bi-geo-alt-fill text-danger me-2 mt-1"></i>
 
-                        <h5 class="fw-bold mb-2">Service Description</h5>
-
-                        <p class="mb-0 text-muted">
-                            {{ design.description }}
-                        </p>
+                        <div>Chittoor, Andhra Pradesh</div>
 
                     </div>
 
-                    <!-- Shop Visit Policy -->
-                    <div class="policy-box mb-4">
+                    <div class="d-flex align-items-start mb-3">
 
-                        <div class="fw-bold mb-2">
-                            <i class="bi bi-shop me-2"></i>
-                            Shop Visit Required
-                        </div>
+                        <i class="bi bi-telephone-fill text-danger me-2 mt-1"></i>
 
-                        <ul class="ps-3">
-
-                            <li>This is a <strong>shop-visit tailoring service</strong>.</li>
-                            <li>Final measurements and fitting confirmation are done at our boutique.</li>
-                            <li>Fabric checking and trial support are provided at the shop.</li>
-                            <li>Order collection is done directly from our Chittoor store.</li>
-
-                        </ul>
+                        <div>+91 7207733335</div>
 
                     </div>
 
-                    <!-- Quick Features -->
-                    <div class="row g-3 mb-4">
+                    <a href="/contact"
+                       class="btn btn-outline-secondary btn-sm btn-pill">
 
-                        <div class="col-6">
+                        Visit Boutique
 
-                            <div class="feature-box text-center">
-
-                                <div class="feature-icon mb-2">✂️</div>
-
-                                <div class="fw-semibold">Custom Stitching</div>
-
-                            </div>
-
-                        </div>
-
-                        <div class="col-6">
-
-                            <div class="feature-box text-center">
-
-                                <div class="feature-icon mb-2">📏</div>
-
-                                <div class="fw-semibold">Perfect Fitting</div>
-
-                            </div>
-
-                        </div>
-
-                        <div class="col-6">
-
-                            <div class="feature-box text-center">
-
-                                <div class="feature-icon mb-2">🧵</div>
-
-                                <div class="fw-semibold">Premium Work</div>
-
-                            </div>
-
-                        </div>
-
-                        <div class="col-6">
-
-                            <div class="feature-box text-center">
-
-                                <div class="feature-icon mb-2">🏪</div>
-
-                                <div class="fw-semibold">Shop Collection</div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <!-- Action Buttons -->
-                    <div class="d-grid gap-3 mt-auto">
-
-                        <button type="button"
-                                class="btn btn-outline-danger btn-lg rounded-pill save-btn"
-                                data-code="{{ design.code }}"
-                                data-title="{{ design.title }}"
-                                data-image="{{ url_for('static', filename=design.image) }}"
-                                data-category="{{ design.category }}">
-
-                            ❤️ Save to Wishlist
-
-                        </button>
-
-                        <a href="/enquiry/{{ design.code }}"
-                           class="btn btn-brand btn-lg text-white rounded-pill">
-
-                            <i class="bi bi-pencil-square me-2"></i>
-                            Send Enquiry
-
-                        </a>
-
-                        <!-- Replace with your real WhatsApp number -->
-                        <a href="https://wa.me/919876543210?text=Hello,%20I%20am%20interested%20in%20{{ design.title|replace(' ', '%20') }}%20(Code:%20{{ design.code }})"
-                           target="_blank"
-                           class="btn btn-success btn-lg rounded-pill">
-
-                            <i class="bi bi-whatsapp me-2"></i>
-                            WhatsApp Booking
-
-                        </a>
-
-                    </div>
+                    </a>
 
                 </div>
 
@@ -326,93 +300,14 @@
 
     </div>
 
-    <!-- Additional Information -->
-    <div class="row g-4 mt-2">
-
-        <div class="col-lg-6">
-
-            <div class="card section-card h-100">
-
-                <div class="card-body p-4">
-
-                    <h5 class="fw-bold mb-3">What You Get</h5>
-
-                    <ul class="mb-0 text-muted">
-
-                        <li>Custom measurements</li>
-                        <li>Professional stitching and finishing</li>
-                        <li>Embroidery / design work as selected</li>
-                        <li>Trial support if required</li>
-                        <li>Order confirmation through WhatsApp</li>
-                        <li>Shop collection after completion</li>
-
-                    </ul>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-lg-6">
-
-            <div class="card section-card h-100">
-
-                <div class="card-body p-4">
-
-                    <h5 class="fw-bold mb-3">How Ordering Works</h5>
-
-                    <ol class="mb-0 text-muted">
-
-                        <li>Select your preferred design/service.</li>
-                        <li>Save it to wishlist or send enquiry.</li>
-                        <li>Visit our boutique with fabric and reference photos.</li>
-                        <li>Measurement confirmation and fitting discussion.</li>
-                        <li>Confirm price and collection date.</li>
-                        <li>Collect your finished outfit from the shop.</li>
-
-                    </ol>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- Visit Reminder -->
-    <div class="card section-card mt-4">
-
-        <div class="card-body p-4 text-center">
-
-            <h5 class="fw-bold mb-2">
-                <i class="bi bi-geo-alt-fill text-danger me-2"></i>
-                Visit Our Boutique in Chittoor
-            </h5>
-
-            <p class="text-muted mb-3">
-                Bring your fabric and reference photos for accurate measurements and fitting consultation.
-            </p>
-
-            <a href="/contact"
-               class="btn btn-outline-dark rounded-pill px-4">
-
-                Contact & Location
-
-            </a>
-
-        </div>
-
-    </div>
-
-    <!-- More Services Button -->
-    <div class="text-center mt-4">
+    <!-- Back Button -->
+    <div class="text-center mt-5">
 
         <a href="/gallery"
-           class="btn btn-outline-dark rounded-pill px-4">
+           class="btn btn-outline-dark btn-lg btn-pill">
 
-            View More Services
+            <i class="bi bi-arrow-left me-2"></i>
+            Back to Gallery
 
         </a>
 
@@ -421,7 +316,7 @@
 </div>
 
 <!-- Footer -->
-<footer class="bg-dark text-white py-4 mt-5">
+<footer class="py-4 mt-5">
 
     <div class="container text-center">
 
@@ -431,7 +326,7 @@
             Bridal Wear • Designer Blouses • Tailoring • Embroidery
         </p>
 
-        <p class="mb-0 small text-white-50">
+        <p class="mb-0 text-white-50">
             Chittoor, Andhra Pradesh
         </p>
 
@@ -439,64 +334,33 @@
 
 </footer>
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
 <!-- Wishlist Script -->
 <script>
+function addToWishlist(code, title, image) {
 
-const saveBtn = document.querySelector('.save-btn');
+    let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
 
-if (saveBtn) {
+    const exists = wishlist.some(item => item.code === code);
 
-    const code = saveBtn.dataset.code;
-
-    let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
-
-    if (wishlist.some(d => d.code === code)) {
-
-        saveBtn.innerHTML = '❤️ Saved';
-        saveBtn.classList.remove('btn-outline-danger');
-        saveBtn.classList.add('btn-danger');
-
+    if (exists) {
+        alert('Already added to wishlist');
+        return;
     }
 
-    saveBtn.addEventListener('click', function () {
-
-        const item = {
-            code: this.dataset.code,
-            title: this.dataset.title,
-            image: this.dataset.image,
-            category: this.dataset.category
-        };
-
-        let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
-
-        const exists = wishlist.some(d => d.code === item.code);
-
-        if (!exists) {
-
-            wishlist.push(item);
-
-            localStorage.setItem('wishlist', JSON.stringify(wishlist));
-
-            this.innerHTML = '❤️ Saved';
-            this.classList.remove('btn-outline-danger');
-            this.classList.add('btn-danger');
-
-            alert('Added to your wishlist!');
-
-        } else {
-
-            alert('Already in wishlist');
-
-        }
-
+    wishlist.push({
+        code: code,
+        title: title,
+        image: image
     });
 
-}
+    localStorage.setItem('wishlist', JSON.stringify(wishlist));
 
+    alert('Added to wishlist ❤️');
+}
 </script>
+
+<!-- Bootstrap JS (Required for Flash Alerts) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

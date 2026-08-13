@@ -8,7 +8,8 @@ from flask import (
     redirect,
     url_for,
     request,
-    flash
+    flash,
+    session
 )
 
 from flask_login import (
@@ -31,6 +32,14 @@ from flask import send_file
 # ===================================================
 
 app = Flask(__name__)
+# ===================================================
+# LANGUAGE SUPPORT
+# ===================================================
+
+LANGUAGES = ['en', 'te']
+
+def get_language():
+    return session.get('lang', 'en')
 
 app.config['SECRET_KEY'] = 'lokeshwari-secret-key'
 
@@ -38,6 +47,14 @@ app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 
 UPLOAD_FOLDER = os.path.join('static', 'images')
+VIDEO_FOLDER = os.path.join('static', 'videos')
+
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+os.makedirs(VIDEO_FOLDER, exist_ok=True)
+os.makedirs('data', exist_ok=True)
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['VIDEO_FOLDER'] = VIDEO_FOLDER
 
 DATA_FILE = os.path.join('data', 'designs.json')
 ENQUIRY_FILE = os.path.join('data', 'enquiries.json')
@@ -46,9 +63,7 @@ ORDER_FILE = os.path.join('data', 'orders.json')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
-
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-os.makedirs('data', exist_ok=True)
+ALLOWED_VIDEO_EXTENSIONS = {'mp4', 'mov', 'webm'}
 
 
 # ===================================================
@@ -109,7 +124,12 @@ def save_designs(designs):
     with open(DATA_FILE, 'w', encoding='utf-8') as f:
         json.dump(designs, f, indent=4, ensure_ascii=False)
 
+def allowed_video(filename):
 
+    return (
+        '.' in filename and
+        filename.rsplit('.', 1)[1].lower() in ALLOWED_VIDEO_EXTENSIONS
+    )
 # ===================================================
 # WATERMARK FUNCTION
 # ===================================================
@@ -211,6 +231,17 @@ if not os.path.exists(DATA_FILE):
 
     save_designs(default_designs)
 
+# ===================================================
+# LANGUAGE SWITCH ROUTE
+# ===================================================
+
+@app.route('/set-language/<lang>')
+def set_language(lang):
+
+    if lang in LANGUAGES:
+        session['lang'] = lang
+
+    return redirect(request.referrer or url_for('home'))
 
 # ===================================================
 # PUBLIC ROUTES
@@ -218,7 +249,25 @@ if not os.path.exists(DATA_FILE):
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+
+    lang = get_language()
+
+    designs = load_designs()
+
+    featured_designs = designs[:6]
+
+    if lang == 'te':
+        return render_template(
+            'te/index.html',
+            lang=lang,
+            featured_designs=featured_designs
+        )
+
+    return render_template(
+        'index.html',
+        lang=lang,
+        featured_designs=featured_designs
+    )
 
 
 @app.route('/gallery')
@@ -226,7 +275,31 @@ def gallery():
 
     designs = load_designs()
 
-    return render_template('gallery.html', designs=designs)
+    search = request.args.get('search', '').lower()
+    category = request.args.get('category', '')
+
+    if search:
+        designs = [
+            d for d in designs
+            if search in d['title'].lower()
+            or search in d['description'].lower()
+        ]
+
+    if category:
+        designs = [
+            d for d in designs
+            if d['category'] == category
+        ]
+
+    categories = sorted(list(set(d['category'] for d in load_designs())))
+
+    return render_template(
+        'gallery.html',
+        designs=designs,
+        categories=categories,
+        search=search,
+        selected_category=category
+    )
 
 
 @app.route('/design/<code>')
@@ -250,6 +323,49 @@ def contact():
 @app.route('/wishlist')
 def wishlist():
     return render_template('wishlist.html')
+
+
+@app.route('/track-order', methods=['GET', 'POST'])
+def track_order():
+
+    enquiry = None
+    order = None
+
+    if request.method == 'POST':
+
+        enquiry_id = request.form.get('enquiry_id', '').strip().upper()
+
+        # Remove ENQ- prefix if present
+        if enquiry_id.startswith('ENQ-'):
+            enquiry_id = enquiry_id.replace('ENQ-', '')
+
+        # Convert to integer safely
+        try:
+            enquiry_id = int(enquiry_id)
+        except ValueError:
+            enquiry_id = None
+
+        enquiries = load_enquiries()
+        orders = load_orders()
+
+        if enquiry_id is not None:
+
+            enquiry = next(
+                (e for e in enquiries if e.get('id') == enquiry_id),
+                None
+            )
+
+            if enquiry:
+                order = next(
+                    (o for o in orders if o.get('enquiry_id') == enquiry.get('id')),
+                    None
+                )
+
+    return render_template(
+        'track_order.html',
+        enquiry=enquiry,
+        order=order
+    )
 
 # ===================================================
 # CUSTOMER ENQUIRY
@@ -288,7 +404,10 @@ def enquiry(code):
 
         save_enquiries(enquiries)
 
-        flash('Enquiry submitted successfully!', 'success')
+        flash(
+            f'Enquiry submitted successfully! Your Enquiry ID is ENQ-{new_id:04d}',
+            'success'
+        )
 
         return redirect(url_for('design_detail', code=code))
 
@@ -721,6 +840,29 @@ def add_design():
 
         # Correct image path
         image_path = f'images/{filename}'
+        # ---------------------------
+        # Optional video upload
+        # ---------------------------
+
+        video_file = request.files.get('video')
+        video_path = ''
+
+        if video_file and video_file.filename != '':
+
+            if not allowed_video(video_file.filename):
+                flash('Only MP4, MOV, and WEBM videos are allowed', 'danger')
+                return redirect(request.url)
+
+            video_filename = secure_filename(video_file.filename)
+
+            video_save_path = os.path.join(
+                app.config['VIDEO_FOLDER'],
+                video_filename
+            )
+
+            video_file.save(video_save_path)
+
+            video_path = f'videos/{video_filename}'
 
         new_design = {
             'code': code,
@@ -729,7 +871,8 @@ def add_design():
             'description': description,
             'price_min': request.form.get('price_min', '0'),
             'price_max': request.form.get('price_max', '0'),
-            'image': image_path
+            'image': image_path,
+            'video': video_path
         }
 
         designs.append(new_design)

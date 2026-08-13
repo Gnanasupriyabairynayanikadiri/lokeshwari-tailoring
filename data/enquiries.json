@@ -3,10 +3,30 @@
         "id": 1,
         "design_code": "BL-101",
         "design_title": "Floral Bridal Blouse Design",
-        "name": "Chandana",
-        "phone": "7867435621",
+        "name": "Supriya",
+        "phone": "9398921805",
         "message": "",
-        "status": "Completed",
-        "created_at": "07-08-2026 07:59 PM"
+        "status": "Contacted",
+        "created_at": "12-08-2026 01:42 PM"
+    },
+    {
+        "id": 2,
+        "design_code": "BL-102",
+        "design_title": "Elegant Neck Embroidery",
+        "name": "Supriya",
+        "phone": "9398921805",
+        "message": "",
+        "status": "Ordered",
+        "created_at": "12-08-2026 01:44 PM"
+    },
+    {
+        "id": 3,
+        "design_code": "BL-101",
+        "design_title": "Floral Bridal Blouse Design",
+        "name": "Thriveni",
+        "phone": "9676448721",
+        "message": "",
+        "status": "Ordered",
+        "created_at": "12-08-2026 01:48 PM"
     }
 ]

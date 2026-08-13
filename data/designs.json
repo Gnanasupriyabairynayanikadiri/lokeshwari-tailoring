@@ -19,5 +19,25 @@
         "category": "Sleeve Design",
         "description": "Stylish floral sleeve embroidery pattern.",
         "image": "images/BL-103.jpg"
+    },
+    {
+        "code": "BL-201",
+        "title": "Bridal Work Blouse",
+        "category": "Bridal Blouse Work",
+        "description": "Bridal Work design",
+        "price_min": "2500",
+        "price_max": "8000",
+        "image": "images/BL-105.jpg",
+        "video": "videos/bridal_work.mp4"
+    },
+    {
+        "code": "BL-106",
+        "title": "Bridal",
+        "category": "Bridal Blouse Work",
+        "description": "Bridal work",
+        "price_min": "2500",
+        "price_max": "10000",
+        "image": "images/BL-105.jpg",
+        "video": ""
     }
 ]
