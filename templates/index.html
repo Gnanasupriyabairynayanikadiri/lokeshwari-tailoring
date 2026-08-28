@@ -1,292 +1,737 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Lokeshwari Tailoring & Embroidery | Chittoor Boutique</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+    <title>
+        Lokeshwari Tailoring & Embroidery | Chittoor Boutique
+    </title>
 
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- ================================================= -->
+    <!-- BOOTSTRAP CSS -->
+    <!-- ================================================= -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- ================================================= -->
+    <!-- BOOTSTRAP ICONS -->
+    <!-- ================================================= -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <!-- ================================================= -->
+    <!-- CUSTOM CSS -->
+    <!-- ================================================= -->
 
     <style>
+
         body {
             background: #f8f9fa;
         }
 
+        /* =================================================
+           HERO
+        ================================================= */
+
         .hero {
-            background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
-                        url('/static/images/BL-101.jpg') center/cover no-repeat;
+
+            background:
+                linear-gradient(
+                    rgba(0,0,0,0.55),
+                    rgba(0,0,0,0.55)
+                ),
+                url("{{ url_for('static', filename='images/BL-101.jpg') }}")
+                center/cover no-repeat;
+
             min-height: 80vh;
+
             color: white;
+
             display: flex;
+
             align-items: center;
         }
 
         .hero-title {
-            font-size: clamp(2.2rem, 5vw, 4rem);
+
+            font-size: clamp(
+                2.2rem,
+                5vw,
+                4rem
+            );
+
             font-weight: 800;
         }
 
         .hero-subtitle {
+
             font-size: 1.1rem;
+
             opacity: 0.95;
         }
 
+        /* =================================================
+           BUTTONS
+        ================================================= */
+
         .btn-pill {
+
             border-radius: 999px;
-            padding: 0.8rem 1.6rem;
+
+            padding:
+                0.8rem
+                1.6rem;
         }
 
+        /* =================================================
+           FEATURE CARDS
+        ================================================= */
+
         .feature-card {
+
             border: none;
+
             border-radius: 22px;
-            box-shadow: 0 10px 24px rgba(0,0,0,0.06);
-            transition: transform 0.2s ease;
+
+            box-shadow:
+                0 10px 24px
+                rgba(0,0,0,0.06);
+
+            transition:
+                transform 0.2s ease;
         }
 
         .feature-card:hover {
-            transform: translateY(-5px);
+
+            transform:
+                translateY(-5px);
         }
 
+        /* =================================================
+           DESIGN CARDS
+        ================================================= */
+
         .design-card {
+
             border: none;
+
             border-radius: 24px;
+
             overflow: hidden;
-            box-shadow: 0 10px 24px rgba(0,0,0,0.08);
-            transition: transform 0.2s ease;
+
+            box-shadow:
+                0 10px 24px
+                rgba(0,0,0,0.08);
+
+            transition:
+                transform 0.2s ease;
         }
 
         .design-card:hover {
-            transform: translateY(-5px);
+
+            transform:
+                translateY(-5px);
         }
 
         .design-image {
+
             width: 100%;
+
             height: 260px;
+
             object-fit: cover;
         }
 
+        /* =================================================
+           PRICE
+        ================================================= */
+
         .price-badge {
+
             background: #198754;
+
             color: white;
+
             border-radius: 999px;
-            padding: 0.35rem 0.8rem;
+
+            padding:
+                0.35rem
+                0.8rem;
+
             font-size: 0.9rem;
         }
 
+        /* =================================================
+           BOUTIQUE NOTICE
+        ================================================= */
+
         .visit-box {
+
             background: #fff3cd;
-            border: 1px solid #ffe69c;
+
+            border:
+                1px solid #ffe69c;
+
             border-radius: 20px;
         }
 
+        /* =================================================
+           FOOTER
+        ================================================= */
+
         footer {
+
             background: #111827;
+
             color: white;
         }
 
         .social-icon {
+
             width: 42px;
+
             height: 42px;
+
             display: inline-flex;
+
             align-items: center;
+
             justify-content: center;
+
             border-radius: 50%;
-            background: rgba(255,255,255,0.1);
+
+            background:
+                rgba(255,255,255,0.1);
+
             color: white;
+
             text-decoration: none;
+
+            transition:
+                all 0.2s ease;
         }
 
         .social-icon:hover {
+
             background: #dc3545;
+
             color: white;
+
+            transform:
+                translateY(-2px);
         }
+
     </style>
+
 </head>
+
 
 <body>
 
-<!-- Navbar -->
+
+<!-- ===================================================== -->
+<!-- NAVBAR -->
+<!-- ===================================================== -->
+
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+
     <div class="container">
 
-        <a class="navbar-brand fw-bold text-dark" href="/">
-            Lokeshwari Tailoring
+        <!-- WEBSITE NAME -->
+
+        <a
+            class="navbar-brand fw-bold text-dark"
+            href="{{ url_for('home') }}"
+        >
+
+            🧵 Lokeshwari Tailoring
+
         </a>
 
-        <button class="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarNav">
+
+        <!-- MOBILE MENU -->
+
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+        >
 
             <span class="navbar-toggler-icon"></span>
 
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarNav">
+
+        <!-- NAVIGATION -->
+
+        <div
+            class="collapse navbar-collapse"
+            id="navbarNav"
+        >
 
             <ul class="navbar-nav ms-auto align-items-lg-center">
 
-                <li class="nav-item">
-                    <a class="nav-link active" href="/">Home</a>
-                </li>
+
+                <!-- HOME -->
 
                 <li class="nav-item">
-                    <a class="nav-link" href="/gallery">Gallery</a>
+
+                    <a
+                        class="nav-link active"
+                        href="{{ url_for('home') }}"
+                    >
+
+                        Home
+
+                    </a>
+
                 </li>
 
-                <!-- NEW TRACK ORDER MENU -->
-                <li class="nav-item">
-                    <a class="nav-link" href="/track-order">Track Order</a>
-                </li>
+
+                <!-- GALLERY -->
 
                 <li class="nav-item">
-                    <a class="nav-link" href="/wishlist">Wishlist</a>
+
+                    <a
+                        class="nav-link"
+                        href="{{ url_for('gallery') }}"
+                    >
+
+                        Gallery
+
+                    </a>
+
                 </li>
 
+
+                <!-- TRACK ORDER -->
+
                 <li class="nav-item">
-                    <a class="nav-link" href="/contact">Contact</a>
+
+                    <a
+                        class="nav-link"
+                        href="{{ url_for('track_order') }}"
+                    >
+
+                        Track Order
+
+                    </a>
+
                 </li>
+
+
+                <!-- WISHLIST -->
+
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link"
+                        href="{{ url_for('wishlist') }}"
+                    >
+
+                        ❤️ Wishlist
+
+                    </a>
+
+                </li>
+
+
+                <!-- CONTACT -->
+
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link"
+                        href="{{ url_for('contact') }}"
+                    >
+
+                        Contact
+
+                    </a>
+
+                </li>
+
+
+                <!-- =================================================
+                     CUSTOMER LOGIN / DASHBOARD
+                ================================================= -->
+
+                {% if current_user.is_authenticated %}
+
+
+                    <!-- CUSTOMER DASHBOARD -->
+
+                    <li class="nav-item ms-lg-2">
+
+                        <a
+                            class="btn btn-outline-danger btn-sm rounded-pill px-3"
+                            href="{{ url_for('customer_dashboard') }}"
+                        >
+
+                            👤 {{ current_user.name }}
+
+                        </a>
+
+                    </li>
+
+
+                    <!-- CUSTOMER LOGOUT -->
+
+                    <li class="nav-item ms-lg-2">
+
+                        <a
+                            class="btn btn-dark btn-sm rounded-pill px-3"
+                            href="{{ url_for('customer_logout') }}"
+                        >
+
+                            Logout
+
+                        </a>
+
+                    </li>
+
+
+                {% else %}
+
+
+                    <!-- LOGIN -->
+
+                    <li class="nav-item ms-lg-2">
+
+                        <a
+                            class="btn btn-outline-danger btn-sm rounded-pill px-3"
+                            href="{{ url_for('customer_login') }}"
+                        >
+
+                            Login
+
+                        </a>
+
+                    </li>
+
+
+                    <!-- REGISTER -->
+
+                    <!-- IMPORTANT:
+                         Your Flask endpoint is 'register',
+                         NOT 'customer_register'
+                    -->
+
+                    <li class="nav-item ms-lg-2">
+
+                        <a
+                            class="btn btn-danger btn-sm rounded-pill px-3"
+                            href="{{ url_for('register') }}"
+                        >
+
+                            Register
+
+                        </a>
+
+                    </li>
+
+
+                {% endif %}
+
+
+                <!-- =================================================
+                     WHATSAPP
+                ================================================= -->
 
                 <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
-                    <a href="https://wa.me/917207733335"
-                       target="_blank"
-                       class="btn btn-success btn-pill">
+
+                    <a
+                        href="https://wa.me/917207733335"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="btn btn-success btn-pill"
+                    >
 
                         <i class="bi bi-whatsapp me-1"></i>
+
                         WhatsApp
 
                     </a>
+
                 </li>
+
 
             </ul>
 
         </div>
 
     </div>
+
 </nav>
 
-<!-- Hero Section -->
+
+<!-- ===================================================== -->
+<!-- HERO SECTION -->
+<!-- ===================================================== -->
+
 <section class="hero">
 
     <div class="container text-center">
 
+
         <h1 class="hero-title mb-3">
-            Bridal & Designer Tailoring Studio
+
+            Bridal & Designer
+            Tailoring Studio
+
         </h1>
 
-        <p class="hero-subtitle mb-4 mx-auto" style="max-width:700px;">
-            Custom bridal blouses, designer blouses, embroidery work, lehengas,
-            frocks, and boutique tailoring crafted with elegance in Chittoor.
+
+        <p
+            class="hero-subtitle mb-4 mx-auto"
+            style="max-width:700px;"
+        >
+
+            Custom bridal blouses,
+            designer blouses,
+            embroidery work,
+            lehengas,
+            frocks,
+            and boutique tailoring
+            crafted with elegance in Chittoor.
+
         </p>
 
-        <div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
 
-            <a href="/gallery"
-               class="btn btn-danger btn-lg btn-pill">
+        <div
+            class="d-flex
+                   flex-column
+                   flex-sm-row
+                   justify-content-center
+                   gap-3"
+        >
+
+
+            <!-- EXPLORE DESIGNS -->
+
+            <a
+                href="{{ url_for('gallery') }}"
+                class="btn btn-danger btn-lg btn-pill"
+            >
 
                 <i class="bi bi-images me-2"></i>
+
                 Explore Designs
 
             </a>
 
-            <a href="/track-order"
-               class="btn btn-light btn-lg btn-pill">
+
+            <!-- TRACK ORDER -->
+
+            <a
+                href="{{ url_for('track_order') }}"
+                class="btn btn-light btn-lg btn-pill"
+            >
 
                 <i class="bi bi-search me-2"></i>
+
                 Track Order
 
             </a>
 
-            <a href="https://wa.me/917207733335"
-               target="_blank"
-               class="btn btn-success btn-lg btn-pill">
+
+            <!-- WHATSAPP -->
+
+            <a
+                href="https://wa.me/917207733335"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-success btn-lg btn-pill"
+            >
 
                 <i class="bi bi-whatsapp me-2"></i>
+
                 Quick Enquiry
 
             </a>
 
+
         </div>
 
     </div>
 
 </section>
 
-<!-- Why Choose Us -->
+
+<!-- ===================================================== -->
+<!-- WHY CHOOSE US -->
+<!-- ===================================================== -->
+
 <section class="py-5 bg-white">
 
     <div class="container">
 
+
         <div class="text-center mb-5">
 
-            <h2 class="fw-bold">Why Choose Us?</h2>
+            <h2 class="fw-bold">
+
+                Why Choose Us?
+
+            </h2>
+
 
             <p class="text-muted">
-                Trusted by brides and families in Chittoor for quality stitching and embroidery.
+
+                Trusted by brides and families
+                in Chittoor for quality stitching
+                and embroidery.
+
             </p>
 
         </div>
 
+
         <div class="row g-4">
 
+
+            <!-- CUSTOM TAILORING -->
+
             <div class="col-md-4">
 
-                <div class="card feature-card h-100 text-center p-4">
+                <div
+                    class="card feature-card
+                           h-100
+                           text-center
+                           p-4"
+                >
 
-                    <div class="text-danger fs-1 mb-3">
+                    <div
+                        class="text-danger
+                               fs-1
+                               mb-3"
+                    >
+
                         <i class="bi bi-scissors"></i>
+
                     </div>
 
-                    <h5 class="fw-bold">Custom Tailoring</h5>
+
+                    <h5 class="fw-bold">
+
+                        Custom Tailoring
+
+                    </h5>
+
 
                     <p class="text-muted mb-0">
-                        Perfect measurements and personalized fitting for every customer.
+
+                        Perfect measurements
+                        and personalized fitting
+                        for every customer.
+
                     </p>
 
                 </div>
 
             </div>
 
+
+            <!-- PREMIUM EMBROIDERY -->
+
             <div class="col-md-4">
 
-                <div class="card feature-card h-100 text-center p-4">
+                <div
+                    class="card feature-card
+                           h-100
+                           text-center
+                           p-4"
+                >
 
-                    <div class="text-danger fs-1 mb-3">
+                    <div
+                        class="text-danger
+                               fs-1
+                               mb-3"
+                    >
+
                         <i class="bi bi-stars"></i>
+
                     </div>
 
-                    <h5 class="fw-bold">Premium Embroidery</h5>
+
+                    <h5 class="fw-bold">
+
+                        Premium Embroidery
+
+                    </h5>
+
 
                     <p class="text-muted mb-0">
-                        Bridal maggam work, designer embroidery, and elegant hand-finished details.
+
+                        Bridal maggam work,
+                        designer embroidery,
+                        and elegant hand-finished
+                        details.
+
                     </p>
 
                 </div>
 
             </div>
+
+
+            <!-- BRIDAL SPECIALIST -->
 
             <div class="col-md-4">
 
-                <div class="card feature-card h-100 text-center p-4">
+                <div
+                    class="card feature-card
+                           h-100
+                           text-center
+                           p-4"
+                >
 
-                    <div class="text-danger fs-1 mb-3">
+                    <div
+                        class="text-danger
+                               fs-1
+                               mb-3"
+                    >
+
                         <i class="bi bi-heart-fill"></i>
+
                     </div>
 
-                    <h5 class="fw-bold">Bridal Specialist</h5>
+
+                    <h5 class="fw-bold">
+
+                        Bridal Specialist
+
+                    </h5>
+
 
                     <p class="text-muted mb-0">
-                        Exclusive bridal blouse collections designed for weddings and special occasions.
+
+                        Exclusive bridal blouse
+                        collections designed
+                        for weddings and
+                        special occasions.
+
                     </p>
 
                 </div>
 
             </div>
+
 
         </div>
 
@@ -294,40 +739,81 @@
 
 </section>
 
-<!-- Featured Designs -->
+
+<!-- ===================================================== -->
+<!-- FEATURED DESIGNS -->
+<!-- ===================================================== -->
+
 <section class="py-5 bg-light">
 
     <div class="container">
 
+
         <div class="text-center mb-5">
 
-            <h2 class="fw-bold">Featured Designs</h2>
+            <h2 class="fw-bold">
+
+                Featured Designs
+
+            </h2>
+
 
             <p class="text-muted">
-                Handpicked bridal and designer blouse collections from our boutique.
+
+                Handpicked bridal and designer
+                blouse collections from our boutique.
+
             </p>
 
         </div>
 
+
         <div class="row g-4">
+
 
             {% for design in featured_designs %}
 
             <div class="col-md-6 col-lg-4">
 
-                <div class="card design-card h-100 position-relative">
 
-                    <img src="/static/{{ design.image }}"
-                         class="design-image"
-                         alt="{{ design.title }}">
+                <div
+                    class="card design-card
+                           h-100
+                           position-relative"
+                >
+
+
+                    <!-- DESIGN IMAGE -->
+
+                    <img
+                        src="{{ url_for('static', filename=design.image) }}"
+                        class="design-image"
+                        alt="{{ design.title }}"
+                        loading="lazy"
+                    >
+
+
+                    <!-- VIDEO BADGE -->
 
                     {% if design.get('video') %}
 
-                    <div class="position-absolute top-0 end-0 m-3">
+                    <div
+                        class="position-absolute
+                               top-0
+                               end-0
+                               m-3"
+                    >
 
-                        <span class="badge bg-dark px-3 py-2 rounded-pill">
+                        <span
+                            class="badge
+                                   bg-dark
+                                   px-3
+                                   py-2
+                                   rounded-pill"
+                        >
 
                             <i class="bi bi-play-fill me-1"></i>
+
                             Video
 
                         </span>
@@ -336,43 +822,115 @@
 
                     {% endif %}
 
-                    <div class="card-body d-flex flex-column p-4">
 
-                        <span class="badge bg-danger align-self-start mb-2 rounded-pill px-3 py-2">
+                    <!-- DESIGN DETAILS -->
+
+                    <div
+                        class="card-body
+                               d-flex
+                               flex-column
+                               p-4"
+                    >
+
+
+                        <!-- CATEGORY -->
+
+                        <span
+                            class="badge
+                                   bg-danger
+                                   align-self-start
+                                   mb-2
+                                   rounded-pill
+                                   px-3
+                                   py-2"
+                        >
+
                             {{ design.category }}
+
                         </span>
 
-                        <h5 class="fw-bold mb-2">{{ design.title }}</h5>
 
-                        <p class="text-muted small flex-grow-1">
-                            {{ design.description[:90] }}...
+                        <!-- TITLE -->
+
+                        <h5 class="fw-bold mb-2">
+
+                            {{ design.title }}
+
+                        </h5>
+
+
+                        <!-- DESCRIPTION -->
+
+                        <p
+                            class="text-muted
+                                   small
+                                   flex-grow-1"
+                        >
+
+                            {{ design.description[:90] }}
+
+                            {% if design.description|length > 90 %}
+                                ...
+                            {% endif %}
+
                         </p>
 
-                        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+
+                        <!-- PRICE + VIDEO -->
+
+                        <div
+                            class="d-flex
+                                   justify-content-between
+                                   align-items-center
+                                   mb-3
+                                   flex-wrap
+                                   gap-2"
+                        >
+
 
                             <span class="price-badge">
-                                ₹ {{ design.price_min }} - ₹ {{ design.price_max }}
+
+                                ₹ {{ design.price_min }}
+                                -
+                                ₹ {{ design.price_max }}
+
                             </span>
+
 
                             {% if design.get('video') %}
 
-                            <small class="text-danger fw-semibold">
+                            <small
+                                class="text-danger
+                                       fw-semibold"
+                            >
 
-                                <i class="bi bi-camera-video-fill me-1"></i>
+                                <i
+                                    class="bi
+                                           bi-camera-video-fill
+                                           me-1"
+                                ></i>
+
                                 Video Available
 
                             </small>
 
                             {% endif %}
 
+
                         </div>
 
-                        <a href="/design/{{ design.code }}"
-                           class="btn btn-danger rounded-pill">
+
+                        <!-- VIEW DESIGN -->
+
+                        <a
+                            href="{{ url_for('design_detail', code=design.code) }}"
+                            class="btn btn-danger rounded-pill"
+                        >
 
                             View Details
 
                         </a>
+
 
                     </div>
 
@@ -380,14 +938,55 @@
 
             </div>
 
+
+            {% else %}
+
+
+            <!-- NO DESIGNS -->
+
+            <div class="col-12">
+
+                <div
+                    class="text-center
+                           py-5
+                           text-muted"
+                >
+
+                    <i
+                        class="bi
+                               bi-images
+                               fs-1"
+                    ></i>
+
+
+                    <h5 class="mt-3">
+
+                        Designs coming soon
+
+                    </h5>
+
+                </div>
+
+            </div>
+
+
             {% endfor %}
+
 
         </div>
 
+
+        <!-- VIEW ALL -->
+
         <div class="text-center mt-5">
 
-            <a href="/gallery"
-               class="btn btn-outline-dark btn-lg btn-pill px-5">
+            <a
+                href="{{ url_for('gallery') }}"
+                class="btn btn-outline-dark
+                       btn-lg
+                       btn-pill
+                       px-5"
+            >
 
                 View All Designs
 
@@ -395,23 +994,231 @@
 
         </div>
 
+
     </div>
 
 </section>
 
-<!-- Boutique Visit Notice -->
-<section class="py-5">
+
+<!-- ===================================================== -->
+<!-- CUSTOMER ACCOUNT SECTION -->
+<!-- ===================================================== -->
+
+<section class="py-5 bg-white">
 
     <div class="container">
 
-        <div class="visit-box p-4 text-center">
 
-            <h4 class="fw-bold mb-3">🏪 Boutique Visit Required</h4>
+        <div
+            class="row
+                   align-items-center
+                   g-4"
+        >
 
-            <p class="mb-0">
-                We currently provide <strong>shop-visit tailoring service only</strong>.
-                Final measurements, fitting, and order collection are done directly at our Chittoor boutique.
-            </p>
+
+            <div class="col-lg-7">
+
+
+                <h2 class="fw-bold">
+
+                    Your Designs, Enquiries & Orders
+
+                </h2>
+
+
+                <p class="text-muted">
+
+                    Create your customer account to
+                    save your favourite designs,
+                    send enquiries and track your
+                    embroidery orders from one place.
+
+                </p>
+
+
+                <div class="d-flex flex-wrap gap-2">
+
+
+                    {% if current_user.is_authenticated %}
+
+
+                    <!-- DASHBOARD -->
+
+                    <a
+                        href="{{ url_for('customer_dashboard') }}"
+                        class="btn btn-danger btn-pill"
+                    >
+
+                        👤 Open My Dashboard
+
+                    </a>
+
+
+                    <!-- WISHLIST -->
+
+                    <a
+                        href="{{ url_for('wishlist') }}"
+                        class="btn btn-outline-danger btn-pill"
+                    >
+
+                        ❤️ My Wishlist
+
+                    </a>
+
+
+                    {% else %}
+
+
+                    <!-- CREATE ACCOUNT -->
+
+                    <!-- FIXED:
+                         customer_register -> register
+                    -->
+
+                    <a
+                        href="{{ url_for('register') }}"
+                        class="btn btn-danger btn-pill"
+                    >
+
+                        Create Customer Account
+
+                    </a>
+
+
+                    <!-- CUSTOMER LOGIN -->
+
+                    <a
+                        href="{{ url_for('customer_login') }}"
+                        class="btn btn-outline-danger btn-pill"
+                    >
+
+                        Customer Login
+
+                    </a>
+
+
+                    {% endif %}
+
+
+                </div>
+
+            </div>
+
+
+            <div class="col-lg-5">
+
+
+                <div
+                    class="card
+                           border-0
+                           shadow-sm
+                           rounded-4"
+                >
+
+                    <div class="card-body p-4">
+
+
+                        <!-- WISHLIST -->
+
+                        <div class="d-flex mb-3">
+
+                            <div class="fs-3 me-3">
+
+                                ❤️
+
+                            </div>
+
+
+                            <div>
+
+                                <h6 class="fw-bold mb-1">
+
+                                    Wishlist
+
+                                </h6>
+
+
+                                <small class="text-muted">
+
+                                    Save your favourite designs.
+
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ENQUIRIES -->
+
+                        <div class="d-flex mb-3">
+
+                            <div class="fs-3 me-3">
+
+                                📨
+
+                            </div>
+
+
+                            <div>
+
+                                <h6 class="fw-bold mb-1">
+
+                                    Enquiries
+
+                                </h6>
+
+
+                                <small class="text-muted">
+
+                                    Send design enquiries
+                                    directly to our boutique.
+
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ORDER TRACKING -->
+
+                        <div class="d-flex">
+
+                            <div class="fs-3 me-3">
+
+                                📦
+
+                            </div>
+
+
+                            <div>
+
+                                <h6 class="fw-bold mb-1">
+
+                                    Order Tracking
+
+                                </h6>
+
+
+                                <small class="text-muted">
+
+                                    Check your order status
+                                    and delivery information.
+
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
 
         </div>
 
@@ -419,85 +1226,239 @@
 
 </section>
 
-<!-- Contact Section -->
+
+<!-- ===================================================== -->
+<!-- BOUTIQUE VISIT NOTICE -->
+<!-- ===================================================== -->
+
+<section class="py-5">
+
+    <div class="container">
+
+
+        <div class="visit-box p-4 text-center">
+
+
+            <h4 class="fw-bold mb-3">
+
+                🏪 Boutique Visit Required
+
+            </h4>
+
+
+            <p class="mb-0">
+
+                We currently provide
+                <strong>
+                    shop-visit tailoring service only
+                </strong>.
+
+                Final measurements, fitting,
+                and order collection are done
+                directly at our Chittoor boutique.
+
+            </p>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- CONTACT SECTION -->
+<!-- ===================================================== -->
+
 <section class="py-5 bg-white">
 
     <div class="container">
 
+
         <div class="row align-items-center g-5">
+
+
+            <!-- CONTACT INFORMATION -->
 
             <div class="col-lg-6">
 
-                <h2 class="fw-bold mb-3">Visit Our Boutique</h2>
+
+                <h2 class="fw-bold mb-3">
+
+                    Visit Our Boutique
+
+                </h2>
+
 
                 <p class="text-muted mb-4">
-                    For bridal orders, custom measurements, fittings, and embroidery consultation,
-                    please visit our boutique in Chittoor.
+
+                    For bridal orders,
+                    custom measurements,
+                    fittings,
+                    and embroidery consultation,
+                    please visit our boutique
+                    in Chittoor.
+
                 </p>
 
-                <div class="d-flex align-items-start mb-3">
 
-                    <i class="bi bi-geo-alt-fill text-danger fs-5 me-3 mt-1"></i>
+                <!-- ADDRESS -->
+
+                <div
+                    class="d-flex
+                           align-items-start
+                           mb-3"
+                >
+
+                    <i
+                        class="bi
+                               bi-geo-alt-fill
+                               text-danger
+                               fs-5
+                               me-3
+                               mt-1"
+                    ></i>
+
 
                     <div>
 
-                        <h6 class="fw-bold mb-1">Address</h6>
+                        <h6 class="fw-bold mb-1">
 
-                        <p class="text-muted mb-0">Chittoor, Andhra Pradesh</p>
+                            Address
+
+                        </h6>
+
+
+                        <p class="text-muted mb-0">
+
+                            Chittoor,
+                            Andhra Pradesh
+
+                        </p>
 
                     </div>
 
                 </div>
 
-                <div class="d-flex align-items-start mb-3">
 
-                    <i class="bi bi-telephone-fill text-danger fs-5 me-3 mt-1"></i>
+                <!-- PHONE -->
+
+                <div
+                    class="d-flex
+                           align-items-start
+                           mb-3"
+                >
+
+                    <i
+                        class="bi
+                               bi-telephone-fill
+                               text-danger
+                               fs-5
+                               me-3
+                               mt-1"
+                    ></i>
+
 
                     <div>
 
-                        <h6 class="fw-bold mb-1">Phone</h6>
+                        <h6 class="fw-bold mb-1">
 
-                        <p class="text-muted mb-0">+91 7207733335</p>
+                            Phone
+
+                        </h6>
+
+
+                        <p class="text-muted mb-0">
+
+                            +91 7207733335
+
+                        </p>
 
                     </div>
 
                 </div>
 
-                <div class="d-flex align-items-start mb-4">
 
-                    <i class="bi bi-clock-fill text-danger fs-5 me-3 mt-1"></i>
+                <!-- HOURS -->
+
+                <div
+                    class="d-flex
+                           align-items-start
+                           mb-4"
+                >
+
+                    <i
+                        class="bi
+                               bi-clock-fill
+                               text-danger
+                               fs-5
+                               me-3
+                               mt-1"
+                    ></i>
+
 
                     <div>
 
-                        <h6 class="fw-bold mb-1">Working Hours</h6>
+                        <h6 class="fw-bold mb-1">
 
-                        <p class="text-muted mb-0">Monday - Saturday, 10:00 AM - 8:00 PM</p>
+                            Working Hours
+
+                        </h6>
+
+
+                        <p class="text-muted mb-0">
+
+                            Monday - Saturday,
+                            10:00 AM - 8:00 PM
+
+                        </p>
 
                     </div>
 
                 </div>
 
-                <a href="/contact"
-                   class="btn btn-danger btn-pill">
+
+                <!-- CONTACT BUTTON -->
+
+                <a
+                    href="{{ url_for('contact') }}"
+                    class="btn btn-danger btn-pill"
+                >
 
                     Contact Us
 
                 </a>
 
+
             </div>
+
+
+            <!-- GOOGLE MAP -->
 
             <div class="col-lg-6">
 
-                <div class="ratio ratio-4x3 rounded-4 overflow-hidden shadow-sm">
+                <div
+                    class="ratio
+                           ratio-4x3
+                           rounded-4
+                           overflow-hidden
+                           shadow-sm"
+                >
 
-                    <iframe src="https://maps.google.com/maps?q=Chittoor%20Andhra%20Pradesh&t=&z=13&ie=UTF8&iwloc=&output=embed"
-                            style="border:0;"
-                            allowfullscreen=""
-                            loading="lazy"></iframe>
+                    <iframe
+                        src="https://maps.google.com/maps?q=Chittoor%20Andhra%20Pradesh&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                        style="border:0;"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        title="Lokeshwari Tailoring location"
+                    ></iframe>
 
                 </div>
 
             </div>
+
 
         </div>
 
@@ -505,50 +1466,116 @@
 
 </section>
 
-<!-- Footer -->
+
+<!-- ===================================================== -->
+<!-- FOOTER -->
+<!-- ===================================================== -->
+
 <footer class="py-5 mt-5">
 
     <div class="container text-center">
 
-        <h5 class="mb-2">Lokeshwari Tailoring & Embroidery Studio</h5>
+
+        <h5 class="mb-2">
+
+            Lokeshwari Tailoring &
+            Embroidery Studio
+
+        </h5>
+
 
         <p class="mb-3">
-            Bridal Wear • Designer Blouses • Tailoring • Embroidery
+
+            Bridal Wear
+            •
+            Designer Blouses
+            •
+            Tailoring
+            •
+            Embroidery
+
         </p>
 
-        <div class="d-flex justify-content-center gap-3 mb-3">
 
-            <a href="https://wa.me/917207733335"
-               target="_blank"
-               class="social-icon">
+        <!-- SOCIAL LINKS -->
+
+        <div
+            class="d-flex
+                   justify-content-center
+                   gap-3
+                   mb-3"
+        >
+
+
+            <!-- WHATSAPP -->
+
+            <a
+                href="https://wa.me/917207733335"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="social-icon"
+                aria-label="WhatsApp"
+            >
 
                 <i class="bi bi-whatsapp"></i>
 
             </a>
 
-            <a href="#" class="social-icon">
+
+            <!-- INSTAGRAM -->
+
+            <a
+                href="#"
+                class="social-icon"
+                aria-label="Instagram"
+            >
 
                 <i class="bi bi-instagram"></i>
 
             </a>
 
-            <a href="#" class="social-icon">
+
+            <!-- FACEBOOK -->
+
+            <a
+                href="#"
+                class="social-icon"
+                aria-label="Facebook"
+            >
 
                 <i class="bi bi-facebook"></i>
 
             </a>
 
+
         </div>
 
+
         <p class="mb-0 text-white-50">
-            © 2026 Lokeshwari Tailoring & Embroidery. All rights reserved.
+
+            © 2026
+            Lokeshwari Tailoring &
+            Embroidery.
+
+            All rights reserved.
+
         </p>
+
 
     </div>
 
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- ===================================================== -->
+<!-- BOOTSTRAP JAVASCRIPT -->
+<!-- ===================================================== -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+></script>
+
 
 </body>
+
 </html>
